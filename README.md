@@ -1,7 +1,7 @@
 #   Mobilenetv2 MXNET
 ## Features 
 - An MXNet implementation of mobilenetv2. [Inverted Residuals and Linear Bottlenecks Mobile Networks for Classification  Detection and Segmentation](https://arxiv.org/pdf/1801.04381).
-
+- use relu as it activation layer rather than use relu6 in inverted residual bottleneck layers.
 
 ## Results 
 

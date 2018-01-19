@@ -1,6 +1,7 @@
 import mxnet as mx
 '''
-    
+    A MXNET implementation of mobilenetv2
+    use relu as Activation layer rather than relu6  
 '''
 def inverted_residual_unit(data, num_filter_input,num_filter_output,name,use_shortcut=True,stride=1, expansion_rate=1,bn_mom=0.9, workspace=256):
     conv1 = mx.sym.Convolution(data=data, num_filter= num_filter_input, kernel=(1,1), stride=(stride,stride), pad=(0,0),
@@ -16,20 +17,19 @@ def inverted_residual_unit(data, num_filter_input,num_filter_output,name,use_sho
     bn3 = mx.sym.BatchNorm(data=conv3, fix_gamma=False, eps=2e-5, momentum=bn_mom, name=name + '_bn3')
 
     if use_shortcut:
-
         return bn3 + data
     else:
         return bn3
 
 
 def get_symbol(num_classes=1000, **kwargs):
+    
     filter_num_inputs = [16,24,32,64,96,160]
     filter_num_outputs = [24,32,64,96,160,320]
     units_num = [2,3,4,3,3,1]
     stride_list = [2,2,2,1,2,1]
 
     data = mx.symbol.Variable(name='data')
-    label = mx.symbol.Variable(name="label")
     conv1 = mx.symbol.Convolution(name='conv1', data=data , num_filter=32, pad=(1, 1), kernel=(3,3), stride=(2,2), no_bias=True)
     conv1_bn = mx.symbol.BatchNorm(name='conv1_bn', data=conv1 , fix_gamma=False, eps=2e-5)
     relu1 = mx.symbol.Activation(name='relu1', data=conv1_bn , act_type='relu')
