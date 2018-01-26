@@ -45,10 +45,9 @@ def get_symbol(num_classes=1000, **kwargs):
                 'stage%d_level%d' % (stage_num + 2, level_num+1),expansion_rate=6)
     stage8 = mx.sym.Convolution(data=body, num_filter=1280, kernel=(1, 1), no_bias=True, name='stage8_pointwise_kernel')
     gpool = mx.symbol.Pooling(data=stage8, pool_type='avg', kernel=(7, 7),
-                              global_pool=True, name='global_pool')
+                                  global_pool=True, name='global_pool')
     conv8 = mx.symbol.Convolution(data=gpool, num_filter=num_classes, kernel=(1, 1),
                                   name='fc')
-    dropout = mx.symbol.Dropout(data=conv8, p=0.5, name="drop_out")
-    flat = mx.symbol.Flatten(data=dropout)
+    flat = mx.symbol.Flatten(data=conv8)
     softmax = mx.symbol.SoftmaxOutput(data=flat, name='softmax')
     return softmax
