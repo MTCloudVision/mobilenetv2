@@ -28,7 +28,7 @@ def get_symbol(num_classes=1000, **kwargs):
     filter_num_inputs = [16,24,32,64,96,160]
     filter_num_outputs = [24,32,64,96,160,320]
     units_num = [2,3,4,3,3,1]
-    stride_list = [2,2,2,1,2,1]
+    stride_list = [2,2,1,2,2,1]
 
     data = mx.symbol.Variable(name='data')
     conv1 = mx.symbol.Convolution(name='conv1', data=data , num_filter=32, pad=(1, 1), kernel=(3,3), stride=(2,2), no_bias=True)
