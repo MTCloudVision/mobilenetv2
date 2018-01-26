@@ -18,7 +18,9 @@ def inverted_residual_unit(data, num_filter_input,num_filter_output,name,use_sho
     if use_shortcut:
         return bn3 + data
     else:
-        return bn3
+        conv1sc = mx.sym.Convolution(data=data, num_filter=num_filter_output, kernel=(1,1), stride=(stride,stride), no_bias=True,workspace=workspace, name=name+'_conv1sc')
+        shortcut = mx.sym.BatchNorm(data=conv1sc, fix_gamma=False, eps=2e-5, momentum=bn_mom, name=name + '_sc')
+        return bn3 + shortcut
 
 
 def get_symbol(num_classes=1000, **kwargs):
