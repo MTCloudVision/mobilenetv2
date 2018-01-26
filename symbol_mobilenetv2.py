@@ -48,6 +48,7 @@ def get_symbol(num_classes=1000, **kwargs):
                               global_pool=True, name='global_pool')
     conv8 = mx.symbol.Convolution(data=gpool, num_filter=num_classes, kernel=(1, 1),
                                   name='fc')
-    flat = mx.symbol.Flatten(data=conv8)
+    dropout = mx.symbol.Dropout(data=conv8, p=0.5, name="drop_out")
+    flat = mx.symbol.Flatten(data=dropout)
     softmax = mx.symbol.SoftmaxOutput(data=flat, name='softmax')
     return softmax
