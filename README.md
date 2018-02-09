@@ -5,7 +5,8 @@
 
 ## Results 
 
-Imagenet ,coco ,voc results and pretrain model  are coming soon ...
+We got 0.235 map on coco datasets for mobilenetv2+ssdlite with 512 input size,[here](https://pan.baidu.com/s/1c3IJGOC).
+Imagenet model will be released as soon as we reach the accuacy of the paper. 
 
 
 ## Requirements

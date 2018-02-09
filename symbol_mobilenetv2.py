@@ -18,9 +18,7 @@ def inverted_residual_unit(data, num_filter_input,num_filter_output,name,use_sho
     if use_shortcut:
         return bn3 + data
     else:
-        conv1sc = mx.sym.Convolution(data=data, num_filter=num_filter_output, kernel=(1,1), stride=(stride,stride), no_bias=True,workspace=workspace, name=name+'_conv1sc')
-        shortcut = mx.sym.BatchNorm(data=conv1sc, fix_gamma=False, eps=2e-5, momentum=bn_mom, name=name + '_sc')
-        return bn3 + shortcut
+        return bn3
 
 
 def get_symbol(num_classes=1000, **kwargs):
@@ -41,7 +39,7 @@ def get_symbol(num_classes=1000, **kwargs):
                 body = inverted_residual_unit(body,filter_num_inputs[stage_num],filter_num_outputs[stage_num],\
                 'stage%d_level%d' % (stage_num + 2, level_num+1),use_shortcut=False ,stride=stride_list[stage_num],expansion_rate=6)
             else:
-                body = inverted_residual_unit(body,filter_num_outputs[stage_num],filter_num_outputs[stage_num],\
+                body = inverted_residual_unit(body,filter_num_inputs[stage_num],filter_num_outputs[stage_num],\
                 'stage%d_level%d' % (stage_num + 2, level_num+1),expansion_rate=6)
     stage8 = mx.sym.Convolution(data=body, num_filter=1280, kernel=(1, 1), no_bias=True, name='stage8_pointwise_kernel')
     gpool = mx.symbol.Pooling(data=stage8, pool_type='avg', kernel=(7, 7),
